@@ -16,7 +16,7 @@ namespace TestUseTech
         static void Main(string[] args)
         {
             Console.WriteLine("Enter user login (domain\\user):");
-            var un = "test\\Uppre1932";// Console.ReadLine();
+            var un = Console.ReadLine();
             if (!string .IsNullOrEmpty(un))
             {
                 try
@@ -36,16 +36,14 @@ namespace TestUseTech
                     using (ClientContext ctx = new ClientContext(url))
                     {
                         #region Get info about user by his login
-                        //PeopleManager peopleManager = new PeopleManager(ctx);
-                        //PersonProperties personProperties = peopleManager.GetPropertiesFor(un);
-                        //ctx.Load(personProperties, p => p.AccountName,  p => p.UserProfileProperties);
-                        //ctx.ExecuteQuery();
-                        //foreach (var property in personProperties.UserProfileProperties)
-                        //{
-                        //    Debug .WriteLine(string.Format("{0}: {1}", property.Key.ToString(), property.Value.ToString()));
-                        //}
-
-
+                        PeopleManager peopleManager = new PeopleManager(ctx);
+                        PersonProperties personProperties = peopleManager.GetPropertiesFor(un);
+                        ctx.Load(personProperties, p => p.AccountName, p => p.UserProfileProperties);
+                        ctx.ExecuteQuery();
+                        foreach (var property in personProperties.UserProfileProperties)
+                        {
+                            Debug.WriteLine(string.Format("{0}: {1}", property.Key.ToString(), property.Value.ToString()));
+                        }
 
                         List siteUserInfoList = ctx.Web.SiteUserInfoList;
                         CamlQuery query2 = new CamlQuery();
@@ -67,7 +65,6 @@ namespace TestUseTech
                         {
                             theUser = li;
                             break;
-                            //Debug.WriteLine("ID:{0}  Login:{2}\\{1} Title:{3}", li.Id, li["UserName"], "",li["Title"]);
                         }
 
                         #endregion

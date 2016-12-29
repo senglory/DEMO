@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 using Microsoft.SharePoint.Client;
-using Microsoft.SharePoint.Client.UserProfiles;
 
 
 
@@ -15,7 +12,7 @@ namespace TestUseTech
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter user login (domain\\user):");
+            Console.Write("Enter user login (domain\\user):");
             var un = Console.ReadLine();
             if (!string .IsNullOrEmpty(un))
             {
@@ -36,14 +33,7 @@ namespace TestUseTech
                     using (ClientContext ctx = new ClientContext(url))
                     {
                         #region Get info about user by his login
-                        PeopleManager peopleManager = new PeopleManager(ctx);
-                        PersonProperties personProperties = peopleManager.GetPropertiesFor(un);
-                        ctx.Load(personProperties, p => p.AccountName, p => p.UserProfileProperties);
-                        ctx.ExecuteQuery();
-                        foreach (var property in personProperties.UserProfileProperties)
-                        {
-                            Debug.WriteLine(string.Format("{0}: {1}", property.Key.ToString(), property.Value.ToString()));
-                        }
+
 
                         List siteUserInfoList = ctx.Web.SiteUserInfoList;
                         CamlQuery query2 = new CamlQuery();
